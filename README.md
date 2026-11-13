@@ -89,6 +89,12 @@ Blender: Export updated YMAP field to XML
     v
 CodeX: Import XML and rebuild native .ymap
 ```
+Native Occlusion Model inside of CodeX viewport:
+<img width="1365" height="945" alt="image" src="https://github.com/user-attachments/assets/483f837b-3f69-4ac4-91dd-15385030da2a" />
+
+Edited Occlusion Model inside of CodeX viewport:
+<img width="1170" height="930" alt="image" src="https://github.com/user-attachments/assets/fbafd35b-caf8-467a-898b-d1464a9af748" />
+
 
 ## Best Practices
 
