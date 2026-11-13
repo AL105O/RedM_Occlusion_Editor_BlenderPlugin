@@ -119,7 +119,6 @@ def import_field(filepath, context):
         raise ValueError('Expected a complete RDR2 CMapData XML exported by CodeX')
     models = field(root, 'occludeModels', False)
     boxes = field(root, 'boxOccluders', False)
-    # Validate the entire file before adding anything to the Blender scene.
     decoded = [decode_model(item) for item in models] if models is not None else []
     decoded_boxes = [(vector(field(i, 'CenterXYZ_CosZ'), 4),
                       vector(field(i, 'SizeXYZ_SinZ'), 4)) for i in boxes] if boxes is not None else []
@@ -140,7 +139,6 @@ def import_field(filepath, context):
     for i, (center, size) in enumerate(decoded_boxes):
         obj = make_object(collection, f'{name} • Box {i:03}', BOX_VERTICES, BOX_FACES, 'BOX', i)
         obj.location = center[:3]
-        # CodeX viewport: atan2(CenterXYZ_CosZ.w, SizeXYZ_SinZ.w).
         obj.rotation_euler.z = math.atan2(center[3], size[3])
         obj.scale = size[:3]
     context.view_layer.update()
@@ -282,7 +280,6 @@ def export_field(collection, filepath, context):
         flags = number(root, 'contentFlags')
         set_number(root, 'contentFlags', flags | 32 if output['MODEL'] or output['BOX'] else flags & ~32)
     xml = ET.tostring(root, encoding='unicode')
-    # Validate every generated model before writing any file.
     for item in output['MODEL']:
         decode_model(item)
     with open(filepath, 'w', encoding='utf-8') as stream:
